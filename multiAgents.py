@@ -319,7 +319,7 @@ def betterEvaluationFunction(currentGameState):
     if len(scared_ghosts) > 0:
         minDistToScaredGhost = min(map(lambda ghost: util.manhattanDistance(pacPos, ghost.getPosition()), scared_ghosts))
 
-    score = -2*minDistToFood - 10*minDistToScaredGhost - 2/minDistToActiveGhost - 50*num_food - 200*num_capsules
+    score = -2*minDistToFood - 20*minDistToScaredGhost - 2/minDistToActiveGhost - 60*num_food - 300*num_capsules
     
     return score
     raise NotImplementedError("To be implemented")
