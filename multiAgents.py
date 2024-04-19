@@ -278,12 +278,16 @@ def betterEvaluationFunction(currentGameState):
     evaluation function (Part 4).
     """
     # Begin your code (Part 4)
-
+    num_food = currentGameState.getNumFood()
 
     if currentGameState.isLose(): 
         return -float("inf")
     elif currentGameState.isWin():
-        return float("inf")
+        if num_food == 0:
+            return float("inf")
+        else:
+            return 1e6
+    
     
     baseScore = scoreEvaluationFunction(currentGameState)
 
@@ -293,9 +297,11 @@ def betterEvaluationFunction(currentGameState):
     ghostsState = currentGameState.getGhostStates()
 
     foodlist = currentGameState.getFood().asList()
-    num_food = currentGameState.getNumFood()
+    
     minDistToFood = min(map(lambda pos: util.manhattanDistance(pacPos, pos), foodlist))
     num_capsules = len(currentGameState.getCapsules())
+
+    
 
     active_ghosts = []
     scared_ghosts = []
@@ -313,7 +319,7 @@ def betterEvaluationFunction(currentGameState):
     if len(scared_ghosts) > 0:
         minDistToScaredGhost = min(map(lambda ghost: util.manhattanDistance(pacPos, ghost.getPosition()), scared_ghosts))
 
-    score = baseScore - 5*minDistToFood - 10*minDistToScaredGhost + 2*minDistToActiveGhost - 100*num_food - 20*num_capsules
+    score = -2*minDistToFood - 10*minDistToScaredGhost - 2/minDistToActiveGhost - 50*num_food - 200*num_capsules
     
     return score
     raise NotImplementedError("To be implemented")
